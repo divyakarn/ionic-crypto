@@ -3,10 +3,31 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
+import Store from './Store';
+import {Provider} from 'react-redux';
+import axios from 'axios';
+import CryptoContext from './config/Currency';
+
+axios.defaults.baseURL = "https://api.coingecko.com/api/v3/coins/"
+axios.interceptors.request.use(req=>{
+  return req;
+},err=>{
+  return Promise.reject(err);
+});
+
+axios.interceptors.response.use(res=>{
+  return res.data;
+},err=>{
+  return Promise.reject(err);
+})
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider store={Store}>
+     <CryptoContext>
+     <App />
+     </CryptoContext>
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

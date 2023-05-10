@@ -1,7 +1,6 @@
-import { Redirect, Route } from 'react-router-dom';
+import { Redirect, Route,Switch } from 'react-router-dom';
 import { IonApp, IonRouterOutlet, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import Home from './pages/Home';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -21,20 +20,31 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import {Menu} from './components/Navigation/Ion-nav/Menu';
+import Search from './pages/SearchPage';
+import WatchList from './pages/WatchList';
+import Home from './pages/Home';
+import Details from './pages/Details/Details';
+import Allcoins from './pages/AllCoins/Allcoins';
+
 
 setupIonicReact();
 
 const App: React.FC = () => (
   <IonApp>
+    
     <IonReactRouter>
-      <IonRouterOutlet>
-        <Route exact path="/home">
-          <Home />
-        </Route>
-        <Route exact path="/">
-          <Redirect to="/home" />
-        </Route>
-      </IonRouterOutlet>
+    <Menu/>
+    <IonRouterOutlet id='main'>
+    <Route exact path="/home" component={Home} />
+        <Route exact path="/" render={() => <Redirect to="/home" />} />
+        <Route exact path="/watchList"component={WatchList} />
+        <Route exact path="/search" component={Search}/>
+        <Route exact path="/details" component={Details} />
+        <Route exact path="/allCoins" component={Allcoins} />
+
+    </IonRouterOutlet>
+     
     </IonReactRouter>
   </IonApp>
 );
